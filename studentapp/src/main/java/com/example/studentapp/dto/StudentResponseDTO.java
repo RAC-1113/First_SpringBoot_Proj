@@ -1,0 +1,40 @@
+package com.example.studentapp.dto;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class StudentResponseDTO {
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(min = 5, max = 50, message = "Name can be of at least 5 characters or max 50 characters")
+    private String name;
+
+    @Min(value = 18, message = "Minimum age is 18 years")
+    @Max(value = 22, message = "Maximum age is 22 years")
+    private int age;
+
+    public StudentResponseDTO(){}
+
+    public StudentResponseDTO(String name, int age){
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
