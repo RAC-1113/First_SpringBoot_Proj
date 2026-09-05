@@ -45,15 +45,18 @@ public class StudentController {
 
         Student SavedStudent = studentService.addStudent(requestDTO);
 
-        StudentResponseDTO responseDTO = new StudentResponseDTO(SavedStudent.getName(), SavedStudent.getAge());
+        StudentResponseDTO responseDTO = new StudentResponseDTO(SavedStudent.getName(), SavedStudent.getAge(), SavedStudent.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     //A @PathVariable takes the value from the path and puts it into a Java variable like the id in this case
     @GetMapping("/getStudentById/{id}")
-    public Student getStudentById(@PathVariable int id){
-        return studentService.getStudentById(id);
+    public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable int id){
+        Student student = studentService.getStudentById(id);
+        StudentResponseDTO responseDTO = new StudentResponseDTO(student.getName(), student.getAge(), student.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
     //In @PutMapping we have to update all the fields, not just the ones we desire to update
@@ -65,10 +68,12 @@ public class StudentController {
 
     // This is the new PUT mapping where validations are implemented as done in Student.java
     @PutMapping("/updateStudent/{id}")
-    public ResponseEntity<Student> updateStudentById(@PathVariable int id, @Valid @RequestBody Student stud){
+    public ResponseEntity<StudentResponseDTO> updateStudentById(@PathVariable int id, @Valid @RequestBody StudentRequestDTO stud){
         Student studd = studentService.updateStudentById(id, stud);
 
-        return ResponseEntity.status(HttpStatus.OK).body(studd);
+        StudentResponseDTO responseDTO = new StudentResponseDTO(studd.getName(), studd.getAge(), studd.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
     // As the name suggests this mapping is used to delete the student with the given Id in the path using .remove()

@@ -1,8 +1,10 @@
 package com.example.studentapp.service;
 
 import com.example.studentapp.dto.StudentRequestDTO;
+import com.example.studentapp.dto.StudentResponseDTO;
 import com.example.studentapp.exception.StudentNotFoundException;
 import com.example.studentapp.model.Student;
+import com.example.studentapp.model.StudentProfile;
 import com.example.studentapp.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Service
 public class StudentService {
+
     private final StudentRepository studentRepository;
     //We inject the student repository
     public StudentService(StudentRepository studentRepository){
@@ -36,28 +39,40 @@ public class StudentService {
         will give an error
     }*/
 
-    public Student getStudentById(int id){
+    /*public Student getStudentById(int id){
         for(Student student : getStudents){
             if(student.getId() == id) return student;
         }
 
         throw new StudentNotFoundException("Student with ID: "+id+" not found");
+    }*/
+    //This uses the studentRepository to find the student by their id
+    public Student getStudentById(int id){
+        return studentRepository.findById(id).orElseThrow(() ->
+                new StudentNotFoundException("Student with id:" + id + " is not found"));
     }
 
     public List<Student> getAllStudents(){
-        return getStudents;
+        return studentRepository.findAll();
     }
 
     public Student addStudent(StudentRequestDTO requestDTO){
+        //Adding the details of student profile to be added to the database
+        StudentProfile profile = new StudentProfile();
+        profile.setCity(requestDTO.getCity());
+        profile.setPhone(requestDTO.getPhone());
+
         Student student = new Student();
         student.setName(requestDTO.getName());
         student.setAge(requestDTO.getAge());
 
+        student.setProfile(profile);
+
         return studentRepository.save(student);
     }
 
-    public Student updateStudentById(int id, Student stud) {
-        for(Student student : getStudents){
+    public Student updateStudentById(int id, StudentRequestDTO requestDTO) {
+        /*for(Student student : getStudents){
             if(student.getId() == id){
                 student.setName(stud.getName());
                 student.setAge(stud.getAge());
@@ -65,16 +80,23 @@ public class StudentService {
                 return student;
             }
         }
-        return null;
+        return null;*/
+
+        Student studentToBeUpdated = studentRepository.findById(id).orElseThrow(() ->
+                new StudentNotFoundException("Student with id "+id+" does not exist"));
+
+        studentToBeUpdated.setName(requestDTO.getName());
+        studentToBeUpdated.setAge(requestDTO.getAge());
+
+        return studentRepository.save(studentToBeUpdated);
     }
 
     public Student deleteStudentById(int id) {
-        for(Student student : getStudents){
-            if(student.getId() == id) {
-                getStudents.remove(student);
-                return student;
-            }
-        }
-        return null;
+        Student studentToDelete = studentRepository.findById(id).orElseThrow(() ->
+                new StudentNotFoundException("Student with id "+id+" is not found"));
+
+        studentRepository.delete(studentToDelete);
+
+        return studentToDelete;
     }
 }

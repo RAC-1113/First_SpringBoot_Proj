@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class StudentResponseDTO {
+    private int id;
 
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 5, max = 50, message = "Name can be of at least 5 characters or max 50 characters")
@@ -17,9 +18,10 @@ public class StudentResponseDTO {
 
     public StudentResponseDTO(){}
 
-    public StudentResponseDTO(String name, int age){
+    public StudentResponseDTO(String name, int age, int id){
         this.name = name;
         this.age = age;
+        this.id = id;
     }
 
     public String getName() {
@@ -36,5 +38,13 @@ public class StudentResponseDTO {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,13 +1,11 @@
 package com.example.studentapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Student {
@@ -24,6 +22,10 @@ public class Student {
     //@Max(value = 50, message = "Maximum age can only be 50")
     //@Min(value = 18, message = "Minimum age can be 18")
     private int age;
+
+    @OneToOne(cascade = CascadeType.ALL) //This is so that the operations done by student are reflected on StudentProfile too
+    @JoinColumn(name = "profile_id") //This explicitly defines the foreign key column name
+    private StudentProfile profile;
 
     public Student(){}
 
@@ -55,5 +57,13 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public StudentProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(StudentProfile profile) {
+        this.profile = profile;
     }
 }

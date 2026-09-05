@@ -15,12 +15,21 @@ public class StudentRequestDTO {
     @Max(value = 22, message = "Maximum age is 22 years")
     private int age;
 
+    @NotBlank(message = "City cannot be blank")
+    @Size(max = 10)
+    private String city;
+
+    @Size(max = 10, min = 10, message = "Phone number has to be of 10 digits")
+    private String phone;
+
     public StudentRequestDTO(){
     }
 
-    public StudentRequestDTO(String name, int age){
+    public StudentRequestDTO(String name, int age, String city, String phone){
         this.name = name;
         this.age = age;
+        this.city = city;
+        this.phone = phone;
     }
 
     public String getName() {
@@ -37,5 +46,21 @@ public class StudentRequestDTO {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
