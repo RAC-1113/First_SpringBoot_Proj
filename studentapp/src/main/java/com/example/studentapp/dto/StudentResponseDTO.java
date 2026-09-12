@@ -16,12 +16,13 @@ public class StudentResponseDTO {
     @Max(value = 22, message = "Maximum age is 22 years")
     private int age;
 
-    public StudentResponseDTO(){}
+    private StudentProfileResponseDTO profile; //Imp remember
 
-    public StudentResponseDTO(String name, int age, int id){
+    public StudentResponseDTO(String name, int age, int id, StudentProfileResponseDTO profile){
         this.name = name;
         this.age = age;
         this.id = id;
+        this.profile = profile;
     }
 
     public String getName() {
@@ -46,5 +47,13 @@ public class StudentResponseDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public StudentProfileResponseDTO getProfile() {
+        return profile;
+    }
+
+    public void setProfile(StudentProfileResponseDTO profile) {
+        this.profile = profile;
     }
 }

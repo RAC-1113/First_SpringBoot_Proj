@@ -22,6 +22,9 @@ public class StudentRequestDTO {
     @Size(max = 10, min = 10, message = "Phone number has to be of 10 digits")
     private String phone;
 
+    //@Size(max = 5, min = 1, message = "Course has to be atleast 5 characters")
+    //private String courseName;
+
     public StudentRequestDTO(){
     }
 

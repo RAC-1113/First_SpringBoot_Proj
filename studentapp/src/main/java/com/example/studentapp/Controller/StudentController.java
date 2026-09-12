@@ -1,5 +1,6 @@
 package com.example.studentapp.Controller;
 
+import com.example.studentapp.dto.StudentProfileResponseDTO;
 import com.example.studentapp.dto.StudentRequestDTO;
 import com.example.studentapp.dto.StudentResponseDTO;
 import com.example.studentapp.exception.StudentNotFoundException;
@@ -45,7 +46,17 @@ public class StudentController {
 
         Student SavedStudent = studentService.addStudent(requestDTO);
 
-        StudentResponseDTO responseDTO = new StudentResponseDTO(SavedStudent.getName(), SavedStudent.getAge(), SavedStudent.getId());
+        StudentProfileResponseDTO profileResponseDTO = new StudentProfileResponseDTO(
+                SavedStudent.getProfile().getCity(),
+                SavedStudent.getProfile().getPhone()
+        );
+
+        StudentResponseDTO responseDTO = new StudentResponseDTO(
+                SavedStudent.getName(),
+                SavedStudent.getAge(),
+                SavedStudent.getId(),
+                profileResponseDTO
+        );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
@@ -54,7 +65,18 @@ public class StudentController {
     @GetMapping("/getStudentById/{id}")
     public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable int id){
         Student student = studentService.getStudentById(id);
-        StudentResponseDTO responseDTO = new StudentResponseDTO(student.getName(), student.getAge(), student.getId());
+
+        StudentProfileResponseDTO profileResponseDTO = new StudentProfileResponseDTO(
+                student.getProfile().getCity(),
+                student.getProfile().getPhone()
+        );
+
+        StudentResponseDTO responseDTO = new StudentResponseDTO(
+                student.getName(),
+                student.getAge(),
+                student.getId(),
+                profileResponseDTO
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
@@ -71,7 +93,17 @@ public class StudentController {
     public ResponseEntity<StudentResponseDTO> updateStudentById(@PathVariable int id, @Valid @RequestBody StudentRequestDTO stud){
         Student studd = studentService.updateStudentById(id, stud);
 
-        StudentResponseDTO responseDTO = new StudentResponseDTO(studd.getName(), studd.getAge(), studd.getId());
+        StudentProfileResponseDTO profileResponseDTO = new StudentProfileResponseDTO(
+                studd.getProfile().getCity(),
+                studd.getProfile().getPhone()
+        );
+
+        StudentResponseDTO responseDTO = new StudentResponseDTO(
+                studd.getName(),
+                studd.getAge(),
+                studd.getId(),
+                profileResponseDTO
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }

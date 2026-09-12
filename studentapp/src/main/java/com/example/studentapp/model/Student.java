@@ -27,6 +27,10 @@ public class Student {
     @JoinColumn(name = "profile_id") //This explicitly defines the foreign key column name
     private StudentProfile profile;
 
+    @ManyToOne(cascade = CascadeType.ALL) //Many students can belong to one course
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public Student(){}
 
     public Student(int id, String name, int age){

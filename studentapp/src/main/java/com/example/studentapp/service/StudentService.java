@@ -88,6 +88,10 @@ public class StudentService {
         studentToBeUpdated.setName(requestDTO.getName());
         studentToBeUpdated.setAge(requestDTO.getAge());
 
+        StudentProfile profile = studentToBeUpdated.getProfile();
+        profile.setCity(requestDTO.getCity());
+        profile.setPhone(requestDTO.getPhone());
+
         return studentRepository.save(studentToBeUpdated);
     }
 
